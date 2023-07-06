@@ -104,3 +104,12 @@ echo "The script will now run Certbot to make your site secured."
 pause "Press any key to continue..."
 
 sudo certbot --nginx -d $proxy_address --email email@example.com --agree-tos --redirect
+
+echo "The script will now set the permissions back to 755."
+pause "Press any key to continue..."
+
+sudo chmod 755 $sites_available_dir
+sudo chmod 755 $sites_enabled_dir
+
+sudo nginx -t
+sudo service nginx restart
