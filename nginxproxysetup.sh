@@ -1,3 +1,5 @@
+#Author: Jaco van Zyl
+#Email: jvanzyl5@outlook.com
 #!/bin/bash
 
 # Function to check if a directory exists
