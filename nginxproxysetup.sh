@@ -7,6 +7,13 @@ is_directory_available() {
     [ -d "$1" ]
 }
 
+# Function to pause script execution
+pause() {
+    local message="${1:-Press any key to continue...}"
+    read -rsp "$message" -n1 key
+    echo
+}
+
 # Check if certbot and python3-certbot-nginx are already installed
 if dpkg -s "certbot" >/dev/null 2>&1 && dpkg -s "python3-certbot-nginx" >/dev/null 2>&1; then
     echo "certbot and python3-certbot-nginx are already installed."
@@ -25,6 +32,16 @@ sites_enabled_dir="/etc/nginx/sites-enabled"
 base_config_file="reverse_proxy"
 config_file="$sites_available_dir/$base_config_file.conf"
 counter=2
+
+echo "The script will temporarily modify the permissons of the NginX sites-available and sites-enabled directories."
+pause "Press any key to continue..."
+
+sudo chmod 777 $sites_available_dir
+sudo chmod 777 $sites_enabled_dir
+
+echo "$sites_available_dir and $sites_enabled_dir has been given full permission so that files can be written to it by script"
+pause
+
 
 # Check if the sites-available directory exists
 if ! is_directory_available "$sites_available_dir"; then
@@ -82,5 +99,8 @@ else
     echo "Failed to generate NGINX configuration file. Please check the permissions of $sites_available_dir."
     exit 1
 fi
+
+echo "The script will now run Certbot to make your site secured."
+pause "Press any key to continue..."
 
 sudo certbot --nginx -d $proxy_address --email email@example.com --agree-tos --redirect
