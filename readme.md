@@ -22,3 +22,5 @@ This should now prompt you for information like your proxy address as well as th
 You can also modify the target_address to work with application as well as example:
 
     http://localhost:8000/application
+
+Please make sure to modify the email address in the script to whom it should notify when certificate is expiring.
