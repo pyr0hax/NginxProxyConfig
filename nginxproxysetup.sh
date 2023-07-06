@@ -82,3 +82,5 @@ else
     echo "Failed to generate NGINX configuration file. Please check the permissions of $sites_available_dir."
     exit 1
 fi
+
+sudo certbot --nginx -d $proxy_address --email email@example.com --agree-tos --redirect
